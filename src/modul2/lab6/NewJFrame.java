@@ -344,7 +344,6 @@ public class NewJFrame extends javax.swing.JFrame {
                     format=null;
                     format=new ImageIcon(new ImageIcon(imagedata).getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH));
                     image.setIcon(format);
-                    
                 }
                 else
                 {
