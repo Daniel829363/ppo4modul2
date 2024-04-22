@@ -1,36 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package modul2.lab9.variant8;
 import java.net.*;
-/**
- *
- * @author Acer
- */
+import java.util.Scanner;
+
 public class Client {
     private static final int UDP_PORT = 9876;
 
     public static void main(String[] args) {
-        try {
-            DatagramSocket socket = new DatagramSocket();
+        try (Scanner scanner = new Scanner(System.in);
+             DatagramSocket socket = new DatagramSocket()) {
+
             InetAddress serverAddress = InetAddress.getByName("localhost");
 
-            // Send UDP command to server
-            byte[] buffer = "RESTART".getBytes();
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, UDP_PORT);
-            socket.send(packet);
+            while (true) {
+            System.out.println("Введите команду для отправки на сервер:");
+            String command = scanner.nextLine();
 
-            // Receive response from server
-            buffer = new byte[1024];
-            packet = new DatagramPacket(buffer, buffer.length);
-            socket.receive(packet);
+            if ("0".equalsIgnoreCase(command)){break;}
+            
+            if ("restart".equalsIgnoreCase(command)) {
+                // Send UDP command to server
+                byte[] buffer = "RESTART".getBytes();
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, UDP_PORT);
+                socket.send(packet);
 
-            String response = new String(packet.getData(), 0, packet.getLength());
-            System.out.println("Response from server: " + response);
+                // Receive response from server
+                buffer = new byte[1024];
+                packet = new DatagramPacket(buffer, buffer.length);
+                socket.receive(packet);
 
-            socket.close();
+                String response = new String(packet.getData(), 0, packet.getLength());
+                System.out.println("Response from server: " + response);
+            } else {
+                System.out.println("Команда не распознана.");
+            }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

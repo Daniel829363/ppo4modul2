@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modul2.lab9.variant8;
 
 import java.io.*;
@@ -34,13 +29,26 @@ public class ClientHandler extends Thread {
         out.println("CLIENTLIST " + String.join(",", clientNames));
     }
 
+    public void sendMessage(String message) {
+        out.println(message);
+    }
+
     @Override
     public void run() {
         try {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                // Handle client's requests here
-                System.out.println(clientName + ": " + inputLine);
+                // Command format: "SEND <target-client-name> <message>"
+                if (inputLine.startsWith("SEND ")) {
+                    String[] parts = inputLine.split(" ", 3);
+                    if (parts.length == 3) {
+                        String targetClientName = parts[1];
+                        String message = parts[2];
+                        TCPServer.sendMessageToClient(targetClientName, "From " + clientName + ": " + message);
+                    }
+                } else {
+                    System.out.println(clientName + ": " + inputLine);
+                }
             }
             // Client disconnected
             TCPServer.clients.remove(this);
@@ -53,4 +61,3 @@ public class ClientHandler extends Thread {
         }
     }
 }
-
