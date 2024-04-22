@@ -6,6 +6,6 @@
 + mssql-jdbc-12.4.2.jre8.jar
 + rs2xml.jar
 
-### И нужно подключить базы (Microsoft SQL Server)
+### И нужно подключить базы (Microsoft SQL Server) [Ссылку на сервер измените на свой]
 + db1
 + shop_netbeans2
